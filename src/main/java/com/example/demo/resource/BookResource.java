@@ -2,6 +2,7 @@ package com.example.demo.resource;
 
 
 import com.example.demo.dto.BookDTO;
+import com.example.demo.dto.BorrowedBookDTO;
 import com.example.demo.service.BookService;
 import com.example.demo.service.impl.BookServiceImpl;
 import jakarta.validation.Valid;
@@ -48,4 +49,15 @@ public class BookResource {
         return bookService.getAll();
     }
 
+    @GetMapping("/borrowed-books/distinct-titles")
+    public ResponseEntity<List<String>> getDistinctBorrowedBookTitles() {
+        List<String> titles = bookService.getDistinctBorrowedBookTitles();
+        return ResponseEntity.ok(titles);
+    }
+
+    @GetMapping("/borrowed-books/distinct-titles-count")
+    public ResponseEntity<List<BorrowedBookDTO>> getDistinctBorrowedBookTitlesAndCount() {
+        List<BorrowedBookDTO> titlesAndCount = bookService.getDistinctBorrowedBookTitlesAndCount();
+        return ResponseEntity.ok(titlesAndCount);
+    }
 }

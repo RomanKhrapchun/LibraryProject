@@ -4,6 +4,8 @@ import com.example.demo.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
@@ -11,4 +13,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
      * By with the help of this we fetch the data from the data base of User entity
      * this repository is stablish connection between the database database and entity(User Class)
      *  */
+    Optional<Member> findByName(String name);
 }

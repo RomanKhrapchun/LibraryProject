@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -18,4 +19,12 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("SELECT b FROM Book b WHERE b.title = :title AND b.author = :author")
     Optional<Book> findByTitleAndAuthor(String title, String author);
 
+    @Query("SELECT DISTINCT b.title FROM MemberBook mb JOIN mb.book b WHERE b.borrowed = true")
+    List<String> findDistinctBorrowedBookTitles();
+
+    @Query("SELECT b.title, SUM(mb.quantity) FROM MemberBook mb JOIN mb.book b WHERE b.borrowed = true GROUP BY b.title, b.author")
+    List<Object[]> findDistinctBorrowedBookTitlesAndCount();
+
+    @Query("SELECT b.title, b.author, SUM(mb.quantity) FROM MemberBook mb JOIN mb.book b WHERE b.borrowed = true GROUP BY b.title, b.author")
+    List<Object[]> findDistinctBorrowedBookTitlesAndAuthors();
 }

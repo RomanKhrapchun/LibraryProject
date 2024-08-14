@@ -1,9 +1,11 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.dto.BookDTO;
 import com.example.demo.dto.MemberDTO;
 import com.example.demo.entity.Book;
 import com.example.demo.entity.Member;
 import com.example.demo.entity.MemberBook;
+import com.example.demo.mapper.MapperBook;
 import com.example.demo.mapper.MapperMember;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.MemberRepository;
@@ -32,6 +34,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private MapperMember mapperMember;
+
+    @Autowired
+    private MapperBook mapperBook;
 
     @Override
     public MemberDTO create(MemberDTO memberDTO) {
@@ -117,8 +122,6 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
     }
 
-
-
     @Override
     public void returnBook(Long memberId, Long bookId, int quantity) {
         Member member = memberRepository.findById(memberId)
@@ -152,4 +155,17 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
     }
 
+    @Override
+    public List<BookDTO> getBorrowedBooksByMemberName(String name) {
+        Member member = memberRepository.findByName(name)
+                .orElseThrow(() -> new RuntimeException("Member not found"));
+
+        return member.getBorrowedBooks().stream()
+                .map(memberBook -> {
+                    BookDTO bookDTO = mapperBook.toDto(memberBook.getBook());
+                    bookDTO.setAmount(memberBook.getQuantity()); // Set the amount to the quantity borrowed by this member
+                    return bookDTO;
+                })
+                .collect(Collectors.toList());
+    }
 }

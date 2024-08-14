@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 
 import com.example.demo.dto.BookDTO;
+import com.example.demo.dto.BorrowedBookDTO;
 import com.example.demo.entity.Book;
 import com.example.demo.mapper.MapperBook;
 import com.example.demo.repository.BookRepository;
@@ -60,5 +61,18 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookDTO> getAll() {
         return bookRepository.findAll().stream().map(mapperBook::toDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getDistinctBorrowedBookTitles() {
+        return bookRepository.findDistinctBorrowedBookTitles();
+    }
+
+    @Override
+    public List<BorrowedBookDTO> getDistinctBorrowedBookTitlesAndCount() {
+        List<Object[]> results = bookRepository.findDistinctBorrowedBookTitlesAndCount();
+        return results.stream()
+                .map(result -> new BorrowedBookDTO((String) result[0], (Long) result[1]))
+                .collect(Collectors.toList());
     }
 }
