@@ -1,4 +1,4 @@
-package MemberTests;
+package com.example.demo.MemberTests;
 
 import com.example.demo.entity.Member;
 import com.example.demo.repository.MemberRepository;

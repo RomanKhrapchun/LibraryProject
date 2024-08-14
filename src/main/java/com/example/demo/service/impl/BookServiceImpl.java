@@ -51,11 +51,9 @@ public class BookServiceImpl implements BookService {
     public void delete(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Book not found"));
-        System.out.println("Book borrowed status: " + book.isBorrowed());
         if (book.isBorrowed()) {
             throw new IllegalStateException("Cannot delete a borrowed book");
         }
-
         bookRepository.delete(book);
     }
 

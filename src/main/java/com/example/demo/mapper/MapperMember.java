@@ -11,7 +11,6 @@ public class MapperMember {
         dto.setId(member.getId());
         dto.setName(member.getName());
         dto.setMembershipDate(member.getMembershipDate());
-        dto.setBookBorrowed(member.isBookBorrowed());
         return dto;
     }
 
@@ -21,7 +20,6 @@ public class MapperMember {
         member.setId(dto.getId());
         member.setName(dto.getName());
         member.setMembershipDate(dto.getMembershipDate());
-        member.setBookBorrowed(dto.isBookBorrowed());
         return member;
     }
 }

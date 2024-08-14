@@ -18,16 +18,20 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "author")
+    @Column(name = "author", nullable = false)
     private String author;
 
-    @Column(name = "amount")
+    @Column(name = "amount", nullable = false)
     private int amount;
 
     @Column(name = "borrowed")
     private boolean borrowed;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 }
+

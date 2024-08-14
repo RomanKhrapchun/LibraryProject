@@ -17,8 +17,10 @@ public class MapperBook {
     }
 
     public Book toEntity(final BookDTO dto) {
+        if (dto.getTitle() == null || dto.getAuthor() == null) {
+            throw new IllegalArgumentException("Title and Author cannot be null");
+        }
         final Book book = new Book();
-        book.setId(dto.getId());
         book.setId(dto.getId());
         book.setTitle(dto.getTitle());
         book.setAuthor(dto.getAuthor());

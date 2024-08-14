@@ -1,4 +1,4 @@
-package MemberTests;
+package com.example.demo.MemberTests;
 
 import com.example.demo.dto.MemberDTO;
 import jakarta.validation.ConstraintViolation;

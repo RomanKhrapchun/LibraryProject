@@ -14,4 +14,8 @@ public interface MemberService {
     void delete(Long id);
 
     List<MemberDTO> getAll();
+
+    void borrowBook(Long memberId, Long bookId, int quantity);
+
+    void returnBook(Long memberId, Long bookId, int quantity) ;
 }
