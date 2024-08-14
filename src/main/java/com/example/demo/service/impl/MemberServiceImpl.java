@@ -87,17 +87,26 @@ public class MemberServiceImpl implements MemberService {
             throw new IllegalStateException("Not enough copies available to borrow");
         }
 
-        // Check if the member has already borrowed this book
+        // Adjust the book amount
+        book.setAmount(book.getAmount() - quantity);
+
+        // Mark as borrowed if at least one copy is borrowed
+        if (book.getAmount() < book.getInitialAmount()) {
+            book.setBorrowed(true);
+        }
+
+        // Save the updated book
+        bookRepository.save(book);
+
+        // Create or update the MemberBook relationship
         Optional<MemberBook> existingBorrow = member.getBorrowedBooks().stream()
                 .filter(mb -> mb.getBook().equals(book))
                 .findFirst();
 
         if (existingBorrow.isPresent()) {
-            // Update the existing record
             MemberBook memberBook = existingBorrow.get();
             memberBook.setQuantity(memberBook.getQuantity() + quantity);
         } else {
-            // Create a new borrow record
             MemberBook memberBook = new MemberBook();
             memberBook.setMember(member);
             memberBook.setBook(book);
@@ -105,11 +114,9 @@ public class MemberServiceImpl implements MemberService {
             member.getBorrowedBooks().add(memberBook);
         }
 
-        book.setAmount(book.getAmount() - quantity);
-
         memberRepository.save(member);
-        bookRepository.save(book);
     }
+
 
 
     @Override
@@ -134,11 +141,15 @@ public class MemberServiceImpl implements MemberService {
 
         if (memberBook.getQuantity() == 0) {
             member.getBorrowedBooks().remove(memberBook);
+            book.setBorrowed(false); // Set the book as not borrowed
+        }
+
+        if (member.getBorrowedBooks().isEmpty()) {
+            member.setBookBorrowed(false); // Set the member's bookBorrowed flag to false
         }
 
         bookRepository.save(book);
         memberRepository.save(member);
     }
-
 
 }

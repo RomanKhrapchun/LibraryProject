@@ -27,6 +27,9 @@ public class Book {
     @Column(name = "amount", nullable = false)
     private int amount;
 
+    @Column(name = "initial_amount", nullable = false)
+    private int initialAmount;
+
     @Column(name = "borrowed")
     private boolean borrowed;
 

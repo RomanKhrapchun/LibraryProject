@@ -25,6 +25,7 @@ public class MapperBook {
         book.setTitle(dto.getTitle());
         book.setAuthor(dto.getAuthor());
         book.setAmount(dto.getAmount());
+        book.setInitialAmount(dto.getAmount());
         book.setBorrowed(dto.isBorrowed());
         return book;
     }

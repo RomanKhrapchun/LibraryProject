@@ -29,4 +29,7 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MemberBook> borrowedBooks = new ArrayList<>();
+
+    @Column(name = "book_borrowed")
+    private boolean bookBorrowed;
 }
