@@ -85,7 +85,8 @@ public class MemberServiceImpl implements MemberService {
                 .mapToInt(MemberBook::getQuantity).sum();
 
         if (currentBorrowedBooksCount + quantity > borrowLimit) {
-            throw new IllegalStateException("Borrow limit exceeded. You can only borrow " + (borrowLimit - currentBorrowedBooksCount) + " more book(s).");
+            throw new IllegalStateException("Borrow limit exceeded. You can only borrow " +
+                    (borrowLimit - currentBorrowedBooksCount) + " more book(s).");
         }
 
         if (book.getAmount() < quantity) {

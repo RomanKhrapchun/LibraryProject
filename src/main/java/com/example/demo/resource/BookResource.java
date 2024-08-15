@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/book")
+@RequestMapping("api/books")
 public class BookResource {
     @Autowired
     private BookService bookService = new BookServiceImpl();
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<String> create(@Valid @RequestBody final BookDTO bookDTO) {
         System.out.println("Validating BookDTO: " + bookDTO);
         bookService.create(bookDTO);
@@ -30,7 +30,7 @@ public class BookResource {
         return bookService.read(id);
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<BookDTO> update(@RequestBody BookDTO bookDTO) {
         bookService.update(bookDTO);
         return ResponseEntity.ok(bookDTO);
@@ -44,18 +44,18 @@ public class BookResource {
         return "Book:" + bookDTO.toString();
     }
 
-    @GetMapping(value = "/all")
+    @GetMapping
     public List<BookDTO> getAll() {
         return bookService.getAll();
     }
 
-    @GetMapping("/borrowed-books/distinct-titles")
+    @GetMapping("/borrowed/distinct-titles")
     public ResponseEntity<List<String>> getDistinctBorrowedBookTitles() {
         List<String> titles = bookService.getDistinctBorrowedBookTitles();
         return ResponseEntity.ok(titles);
     }
 
-    @GetMapping("/borrowed-books/distinct-titles-count")
+    @GetMapping("/borrowed/distinct-titles-count")
     public ResponseEntity<List<BorrowedBookDTO>> getDistinctBorrowedBookTitlesAndCount() {
         List<BorrowedBookDTO> titlesAndCount = bookService.getDistinctBorrowedBookTitlesAndCount();
         return ResponseEntity.ok(titlesAndCount);

@@ -12,12 +12,12 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/member")
+@RequestMapping("api/members")
 public class MemberResource {
     @Autowired
     private MemberService memberService;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<String> create(@Valid @RequestBody final MemberDTO memberDTO) {
         memberService.create(memberDTO);
         return ResponseEntity.ok("Member created successfully");
@@ -28,7 +28,7 @@ public class MemberResource {
         return memberService.read(id);
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<MemberDTO> update(@Valid @RequestBody MemberDTO memberDTO) {
         memberService.update(memberDTO);
         return ResponseEntity.ok(memberDTO);
@@ -40,7 +40,7 @@ public class MemberResource {
         return ResponseEntity.ok("Member deleted successfully");
     }
 
-    @GetMapping(value = "/all")
+    @GetMapping
     public List<MemberDTO> getAll() {
         return memberService.getAll();
     }
