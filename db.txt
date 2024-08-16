@@ -1,0 +1,34 @@
+CREATE DATABASE "LibraryProject"
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'Ukrainian_Ukraine.1251'
+    LC_CTYPE = 'Ukrainian_Ukraine.1251'
+    LOCALE_PROVIDER = 'libc'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1
+    IS_TEMPLATE = False;
+
+CREATE TABLE books (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    amount INT NOT NULL,
+    borrowed BOOLEAN NOT NULL DEFAULT FALSE,
+    initial_amount INT NOT NULL,
+    member_id INT REFERENCES members(id) ON DELETE SET NULL
+);
+
+CREATE TABLE members (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    membership_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    book_borrowed BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE TABLE member_books (
+    id SERIAL PRIMARY KEY,
+    member_id INT REFERENCES members(id) ON DELETE CASCADE,
+    book_id INT REFERENCES books(id) ON DELETE CASCADE,
+    quantity INT NOT NULL
+);
